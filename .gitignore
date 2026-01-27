@@ -1,1 +1,4 @@
 models/
+
+*.jsonl
+*.csv
