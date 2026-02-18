@@ -14,4 +14,6 @@ models:
   - 'google/t5gemma-l-l-ul2-it'
   - 'google/t5gemma-l-l-prefixlm-it'
   - 'google/t5gemma-2-270m-270m'
+  - 'Qwen/Qwen3-1.7B'
 local_dir: '../models'
+output_sft_dir: '../output_sft'

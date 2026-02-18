@@ -1,4 +1,4 @@
-# MicroLLMFineTuneQA
+# MicroLLMFineTuneQA !!!REWORK!!!
 ---
 Research project for efficient fine-tuning of compact language models for natural language question answering
 
