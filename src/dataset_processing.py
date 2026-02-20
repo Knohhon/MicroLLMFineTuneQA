@@ -25,12 +25,16 @@ def document_cleaning(document_tokens: List[Dict]):
 def answer_processing(document: Dict):
     answers = []
     for annotation in document['annotations']:
+        if annotation['long_answer']['start_token'] == -1:
+            continue
         long_answer = annotation['long_answer']
         long_answer['content'] = [
             token_dict['token']
             for token_dict in document['document_tokens'][long_answer['start_token']:long_answer['end_token']]
             if not token_dict.get('html_token', False)
         ]
+        if annotation['short_answers'] == []:
+            continue
         short_answers = [ _ for _ in annotation['short_answers'] ]
         for short_answer in short_answers:
             short_answer['content'] = [
@@ -47,10 +51,13 @@ def documents_processing(nq_batch : List[Dict]):
     for doc in nq_batch:
         preprocessed_doc = {}
         if doc['document_tokens'] and doc['question_tokens'] and doc['annotations']:
+            answers = answer_processing(doc)
+            if answers == []:
+                continue
             context = document_cleaning(doc['document_tokens'])
             preprocessed_doc['question'] = doc['question_tokens']
-            preprocessed_doc['context'] = context
-            answers = answer_processing(doc)
+            preprocessed_doc['context_base_tokens'] = context
+            preprocessed_doc['context_text_in_row'] = ' '.join(context)
             preprocessed_doc['answers'] = answers
             preprocessed_documents.append(preprocessed_doc)
 
@@ -82,6 +89,7 @@ def save_jsonl(
 
 def main():
     all_documents = nq_processing(dir = os.getenv('RAW_DATASET_DIR_PATH'))
+    print(len(all_documents))
     save_jsonl(data=all_documents, filepath=os.path.join(os.getenv('PREPROCESSED_DATASET_DIR_PATH'), 'train_nq.jsonl'))
 
 
