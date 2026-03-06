@@ -9,3 +9,5 @@ datasets/
 *.jsonl
 >>>>>>> 334c358a3b93e9f0c68e3079230b95a324d448b7
 *.csv
+checkpoints/
+logs/
