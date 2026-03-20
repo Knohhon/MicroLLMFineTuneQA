@@ -11,3 +11,4 @@ datasets/
 *.csv
 checkpoints/
 logs/
+checkpoints_v2/
